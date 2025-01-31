@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react'
 import { useFormik } from 'formik'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import * as yup from 'yup'
 // import React from 'react'
@@ -113,6 +113,7 @@ export default function Login() {
               </div> :null
                   }
             </button>
+            <span className='capitalize text-gray-900 text-sm'>create an account <Link to={'/register'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>signup</Link></span>
 
             {errMsg? <span className='p-4 mb-6 text-md font-semibold capitalize text-red-900  rounded-lg  dark:bg-gray-800 dark:text-green-400'>{ errMsg}</span>:null }
             {succMsg ?
