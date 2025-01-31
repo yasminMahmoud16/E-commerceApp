@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   // base for github not vercle
-  base:"/E-commerceApp/"
+  // base:"/E-commerceApp/"
 })
