@@ -21,6 +21,7 @@ import PassCode from './Components/ForgetPassword/PassCode';
 import ResetUser from './Components/ForgetPassword/ResetUser';
 import Payment from './Components/Payment/Payment';
 import Cart from './Components/Cart/Cart';
+import AllOrders from './Components/AllOrders/AllOrders';
 // import SocialMedia from './Components/SocialMedia/SocialMedia';
 // import BrandDetails from './Components/BrandDetails/BrandDetails';
 
@@ -33,6 +34,7 @@ const route = createHashRouter([
       {path:'cart', element: <Guard><Cart/></Guard> },
       {path:'details/:id', element: <Guard><ProductDetails/></Guard> },
       {path:'categories', element: <Guard><Categories/></Guard> },
+      {path:'allorders', element: <Guard><AllOrders/></Guard> },
       { path: 'brands', element: <Guard><Brands /></Guard>   },
       { path: 'wish-list', element: <Guard><WishList /></Guard>   },
       { path: 'payment', element: <Guard><Payment /></Guard>   },
