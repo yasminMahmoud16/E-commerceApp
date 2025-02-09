@@ -1,22 +1,29 @@
-import React from 'react'
+import  { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import { CartContext } from '../Context/CartContext';
+import { WishContext } from '../Context/WishContext';
+
+
 
 export default function ProductsCard(props) {
-    console.log(props);
-    const { title, ratingsAverage, price, imageCover, description, _id } = props.products;
+    // console.log(props);
+    const { title, ratingsAverage, price, imageCover, _id } = props.products;
     let rate = Math.floor(ratingsAverage);
-    
+
+    // const {isWishList,setIsWishList}= useState(false);
+    const { addToCart } = useContext(CartContext);
+    const { addToWishList, wishItems,removeProdWishList } = useContext(WishContext);
+    const isWishList = wishItems.includes(_id);
     return <>
 
         <div className="mb-9 bg-white  rounded-lg  text-center">
             <Link to={`/details/${_id}`} >
                     <div>
-                        <img className="p-8 rounded-t-lg h-[300px] w-full" src={imageCover} alt="product image" />
+                        <img className="p-8 rounded-t-lg h-[400px] w-full md:h-[300px]" src={imageCover} alt="product image" />
                     </div>
                     <div className="px-5 pb-5">
                         <div>
                                     <h5 className="tracking-tight font-bold dark:text-white">{title.slice(0,23)+"..."}</h5>
-                                    {/* <p className='text-sm text-gray-400 h-[40px]'>{description.slice(0,60) + "..."}</p> */}
                         </div>
                         <div className="flex items-center justify-center mt-2.5 mb-5">
                                     <div className="flex items-center space-x-1 rtl:space-x-reverse ">
@@ -33,9 +40,15 @@ export default function ProductsCard(props) {
                     </div>
             </Link>
             <div className='flex flex-col gap-2 justify-between items-center px-5 pb-5'>
-                                    <span className="text-lg font-semibold text-[#16C216] dark:text-white">{ price} <span className='text-gray-900'>EGP</span> </span>
-
-                <button className="w-full ms-auto block capitalize text-white transition-all bg-[#16C216] hover:bg-[#0b850b] focus:ring-4 focus:outline-none focus:ring-[#16C216] font-medium  text-sm px-5 py-2.5 text-center dark:bg-[#16C216] dark:hover:bg-[#16C216] dark:focus:ring-[#16C216]">add to cart <i className="fa-solid fa-cart-shopping"></i></button>
+                <div className='flex items-center justify-between w-full'>
+                    <span className="text-lg font-semibold text-[#16C216] dark:text-white p-3">{price} <span className='text-gray-900'>EGP</span> </span>
+                    
+                       <i onClick={() => isWishList ? removeProdWishList(_id) : addToWishList(_id)}
+    className={`fa-solid fa-heart text-xl p-3 transition-all cursor-pointer ${
+        isWishList ? 'text-red-500' : 'text-green-900'
+                    } hover:text-red-500`}></i>
+                </div>
+                <button onClick={()=>{addToCart(_id)}} className="w-full ms-auto block capitalize text-white transition-all bg-[#16C216] hover:bg-[#0b850b] focus:ring-4 focus:outline-none focus:ring-[#16C216] font-medium  text-sm px-5 py-2.5 text-center dark:bg-[#16C216] dark:hover:bg-[#16C216] dark:focus:ring-[#16C216]">add to cart <i className="fa-solid fa-cart-shopping"></i></button>
             </div>
 
 

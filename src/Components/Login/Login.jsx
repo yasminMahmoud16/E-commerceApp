@@ -41,7 +41,9 @@ export default function Login() {
   async function login(values) {
     setSuccMsg(null);
     setErrMsg(null);
-    setLoading(true)
+    setLoading(true);
+
+
     try {
       const res = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin',values)    
       console.log(res);
@@ -113,7 +115,11 @@ export default function Login() {
               </div> :null
                   }
             </button>
-            <span className='capitalize text-gray-900 text-sm'>create an account <Link to={'/register'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>signup</Link></span>
+            <div className='flex gap-4 items-center'>
+
+              <span className='capitalize text-gray-900 text-sm'>create an account <Link to={'/register'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>signup</Link></span>
+              <Link to={'/forget-password'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>Forget Password ?</Link>
+            </div>
 
             {errMsg? <span className='p-4 mb-6 text-md font-semibold capitalize text-red-900  rounded-lg  dark:bg-gray-800 dark:text-green-400'>{ errMsg}</span>:null }
             {succMsg ?

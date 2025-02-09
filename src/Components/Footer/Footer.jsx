@@ -10,6 +10,7 @@ export default function Footer() {
     return <>
         <footer className='bg-[#f0f3f2] p-6'>
             <div className="container">
+
                 <div className="paragraph flex flex-col items-center justify-center mb-5 md:items-start">
 
                 <h2 className='capitalize'>get the fresh cart app</h2>

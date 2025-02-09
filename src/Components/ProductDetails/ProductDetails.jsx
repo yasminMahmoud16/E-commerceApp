@@ -1,14 +1,15 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import  { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query';
 import { InfinitySpin } from 'react-loader-spinner'
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { CartContext } from '../Context/CartContext';
 
 export default function ProductDetails() {
 
-  // let [ details, setDetails ] = useState();
+
+  const {addToCart}= useContext(CartContext)
   
   const {id} = useParams();
   console.log(id);  
@@ -21,9 +22,9 @@ export default function ProductDetails() {
   }
 
   const { data ,isLoading } = useQuery({
-    queryKey: 'productDetails',
+    queryKey: ['productDetails', id],
     queryFn: getDetailds,
-    cacheTime: 0
+    // cacheTime: 0
   });
 
   const details = data?.data.data;
@@ -44,7 +45,7 @@ export default function ProductDetails() {
                         </div>:    
               <div className='my-16 '>
                   <div className='grid grid-cols-6 items-center ' >
-            <div className="col-span-3">
+            <div className="col-span-3" key={details._id}>
 
 
 
@@ -57,9 +58,9 @@ export default function ProductDetails() {
                 
               }} >
                 
-                    {details?.images.map((image) => {
-                      return <SplideSlide key={image._id} >
-                        <img src={image} className='w-full h-96' alt="" />
+                    {details?.images.map((image,index) => {
+                      return <SplideSlide key={index} >
+                        <img src={image} className='w-full h-96' alt={image.title} />
                       </SplideSlide>
                     })}
               
@@ -85,7 +86,7 @@ export default function ProductDetails() {
               <span className='text-[#0d440d] mb-3'>{details?.category.name}</span>
               
               
-              <button className='bg-green-500 text-white px-4 py-2 rounded-lg transition-all hover:bg-green-400'>+Add to cart</button>
+              <button onClick={()=>{addToCart(id)}}  className='bg-green-500 text-white px-4 py-2 rounded-lg transition-all hover:bg-green-400'>+Add to cart</button>
                     </div>
 
                   </div>

@@ -2,13 +2,20 @@ import React, { useContext } from 'react'
 import {  Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../../assets/freshcart-logo.svg'
 import { AuthContext } from '../Context/AuthContext';
+import { CartContext } from '../Context/CartContext';
+import { Badge } from '@mui/material';
+import { WishContext } from '../Context/WishContext';
 
 
 
 export default function Navbar() {
 
   const { token, setToken } = useContext(AuthContext);
+
   const navigate = useNavigate();
+  const { numOfCartItems } = useContext(CartContext);
+      const {  userwishItems,wishListNumber } = useContext(WishContext);
+  
   const logout = () => {
       localStorage.removeItem('token');
       setToken(null)
@@ -47,15 +54,7 @@ export default function Navbar() {
                                       Home
                 </NavLink>
           </li>
-          <li>
-                  
-                <NavLink to="carts" className={({ isActive }) => 
-                          isActive 
-                            ? 'block py-2 px-3 text-white bg-[#16C216] rounded md:bg-transparent md:text-[#16C216] md:p-0 dark:text-white md:dark:text-[#16C216]' 
-                                        : 'block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'} >
-                                      Carts
-                </NavLink>
-          </li>
+
 
           <li>
                   
@@ -74,23 +73,39 @@ export default function Navbar() {
                                         : 'block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'} >
                                       Brands
                 </NavLink>
-          </li>
+              </li>
+              <li className='relative'>
+                  
+                <NavLink to="cart" className={({ isActive }) => 
+                          isActive 
+                            ? 'block py-2 px-3 text-white bg-[#16C216] rounded md:bg-transparent md:text-[#16C216] md:p-0 dark:text-white md:dark:text-[#16C216]' 
+                    : 'block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'} >
+                  
+
+                  <Badge color="error" badgeContent={numOfCartItems}>
+                    <i className="fa-solid fa-cart-shopping text-[#16C216] text-lg "></i>
+                  </Badge>
+                                      {/* <i className="fa-solid fa-cart-shopping text-[#16C216] "></i> <span className=' bg-red-500 absolute bottom-3 left-2 rounded-full h-[14px] w-[14px] flex items-center justify-center text-white text-sm pb-[1.5px] '>{numOfCartItems}</span>   */}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={'wish-list'}>
+                  <Badge color="secondary" badgeContent={userwishItems.length||0}>
+                                      <i className="fa-solid fa-heart text-xl text-[#16c216] cursor-pointer transition-all hover:text-red-500"></i>
+
+                        </Badge>
+
+                </NavLink>
+              </li>
               </>:null}
 
 
-              <div className='md:flex space-x-4 '>
-                <span><i className="transition-all hover:text-[#16C216] hover:cursor-pointer fa-brands fa-instagram"></i></span>
-                <span><i className="transition-all hover:text-[#16C216] hover:cursor-pointer fa-brands fa-facebook"></i></span>
-                <span><i className="transition-all hover:text-[#16C216] hover:cursor-pointer fa-brands fa-tiktok"></i></span>
-                <span><i className="transition-all hover:text-[#16C216] hover:cursor-pointer fa-brands fa-twitter"></i></span>
-                <span><i className="transition-all hover:text-[#16C216] hover:cursor-pointer fa-brands fa-linkedin"></i></span>
-                <span><i className="transition-all hover:text-[#16C216] hover:cursor-pointer fa-brands fa-youtube"></i></span>
-              </div>
+
               <div className="state flex flex-col  md:flex-row md:space-x-4">
 
                 {token ? <button className='border-2 border-[#16C216] py-1 px-5 rounded-md text-[#16c216] 
-               hover:bg-[#288828] hover:text-white hover:border-[#288828] 
-               transition duration-300 ease-in-out' onClick={logout}>logout <i className="fa-solid fa-arrow-right-from-bracket"></i></button> : <>
+                hover:bg-[#288828] hover:text-white hover:border-[#288828] 
+                transition duration-300 ease-in-out' onClick={logout}>logout <i className="fa-solid fa-arrow-right-from-bracket"></i></button> : <>
                   <Link to={'login'} className='transition-all hover:text-[#16C216]'>login</Link>
                 
                   <Link to={'register'}className='transition-all hover:text-[#16C216]'>register</Link>
