@@ -21,7 +21,7 @@ export default function Register() {
     email: yup.string().required('Email Is Requried').email('Please Enter Valid Email'),
     password: yup.string().required('Password Is Requried').matches(/^[A-z0-9_]{6,30}$/, 'Please Enter Valid Password With (numbers / _ / characters)'),
     rePassword: yup.string().required('rePassword Is Requried').oneOf([yup.ref('password')], 'Password Dose not Match'),
-    phone: yup.string().required('Phone Is Requried').matches(/^01[1205][0-9]{8}$/),
+    phone: yup.string().required('Phone Is Requried').matches(/^01[1205][0-9]{8}$/ ,'Phone Must Be Start With (010/012/011/015) and Contain 8 Numbers '),
     name: yup.string().required('Name Is Requried').min(3, 'Not Less Than 3 Characters').max(20, 'Not More Than 20 Characters')
   });
 
