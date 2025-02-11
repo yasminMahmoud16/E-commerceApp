@@ -30,7 +30,7 @@ export default function SubCatOnCategories({ categoryId }) {
     if (categoryId) {
       setClicked(true); 
     }
-  }, []);
+  }, [categoryId]);
 
 
 
@@ -44,8 +44,7 @@ export default function SubCatOnCategories({ categoryId }) {
               {det.name}
             </div>
           ))}
-        </div>
-      ) : (
+        </div>) : (
         clicked && ( 
           <h1 className="text-center mb-5 text-green-950 uppercase font-semibold">
             There is no subcategory here
