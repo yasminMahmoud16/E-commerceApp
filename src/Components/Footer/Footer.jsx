@@ -1,4 +1,3 @@
-import React from 'react'
 import amazon from '../../assets/amazon-pay.png'
 import amrican from '../../assets/American-Express-Color.png'
 import masterCard from '../../assets/mastercard.webp'

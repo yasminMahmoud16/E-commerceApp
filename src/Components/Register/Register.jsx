@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import  { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -25,7 +25,7 @@ export default function Register() {
     name: yup.string().required('Name Is Requried').min(3, 'Not Less Than 3 Characters').max(20, 'Not More Than 20 Characters')
   });
 
-  // cleenCode
+  // for cleenCode
   async function regester(values) {
     // remove the msg if user enters new mail
     setMsg(null)

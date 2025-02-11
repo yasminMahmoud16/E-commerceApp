@@ -1,6 +1,7 @@
-import React from 'react'
 
 import errorImage from '../../assets/error.svg'
+
+
 export default function Error() {
   return <>
     

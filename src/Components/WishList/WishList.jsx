@@ -1,9 +1,10 @@
 import  { useContext, useEffect } from 'react'
 import { WishContext } from '../Context/WishContext';
 import { CartContext } from '../Context/CartContext';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function WishList() {
-    const { getProWishList, userwishItems ,removeProdWishList } = useContext(WishContext);
+    const { getProWishList, userwishItems ,removeProdWishList,isLoaading } = useContext(WishContext);
     const { addToCart } = useContext(CartContext);
     useEffect(() => {
         getProWishList();
@@ -11,32 +12,49 @@ export default function WishList() {
     return <>
         <section className='min-h-screen'>
             <div className="container">
-              <h1 className='text-center text-3xl text-[#16C216]'>your wish list </h1>
+              <h1 className='text-center mt-3 text-3xl font-bold capitalize text-[#36b436]'>your wish list <i className="fa-solid fa-heart"></i> </h1>
                 
 
-<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-9 mb-5">
+  <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-      <tr>
-        <th scope="col" className="px-16 py-3">
-          <span className="sr-only">Image</span>
-        </th>
-        <th scope="col" className="px-6 py-3">
+      <tr className=' bg-green-600 text-white'>
+        
+        <th scope="col" className="px-6 py-3 text-center">
           Product
         </th>
-        <th scope="col" className="px-6 py-3">
-          Qty
+        <th scope="col" className="px-6 py-3text-center">
+          title
         </th>
-        <th scope="col" className="px-6 py-3">
+        <th scope="col" className="px-6 py-3 text-center">
           Price
         </th>
-        <th scope="col" className="px-6 py-3">
-          Action
-        </th>
+        <th scope="col" className="px-6 py-3"></th>
+        <th scope="col" className="px-6 py-3"></th>
+        <th scope="col" className="px-6 py-3"></th>
       </tr>
     </thead>
-        <tbody>
-                            {userwishItems.map((item) =>(
+              <tbody>
+                
+                {isLoaading ?
+                  <tr>
+                    <td  colSpan="100%" className="text-center align-middle">
+                                    <div className="flex  justify-center items-center px-5 w-full min-h-screen">
+                  <ThreeDots
+  visible={true}
+  height="80"
+  width="80"
+  color="#4fa94d"
+  radius="9"
+  ariaLabel="three-dots-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+                />
+                </div>
+                    </td>
+                  </tr>
+ : <>
+                    {userwishItems.map((item) =>(
                     
                         <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td className="p-4">
@@ -45,22 +63,19 @@ export default function WishList() {
                             <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                             {item.title}
                             </td>
-                            <td className="px-6 py-4">
-                            <div className="flex items-center">
-
-                            </div>
-                            </td>
                             <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                             {item.price} EGP
                             </td>
                             <td className="px-6 py-4">
-                            <button onClick={()=>{removeProdWishList(item._id)}}  className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
+                            <button onClick={()=>{addToCart(item._id)}}  className="font-medium text-green-600 hover:text-green-400"><i className="fa-solid fa-cart-plus text-2xl "></i></button>
                             </td>
                             <td className="px-6 py-4">
-                            <button onClick={()=>{addToCart(item._id)}}  className="font-medium text-red-600 dark:text-red-500 hover:underline">add to cart</button>
+                            <button onClick={()=>{removeProdWishList(item._id)}}  className="font-medium text-red-600 hover:text-red-500"><i className="text-2xl fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     ))}
+                </>}
+                      
 
     </tbody>
   </table>

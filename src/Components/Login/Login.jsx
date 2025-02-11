@@ -1,102 +1,40 @@
 
-import React, { useContext, useState } from 'react'
-import { useFormik } from 'formik'
-import { Link, useNavigate } from 'react-router-dom';
-
-import * as yup from 'yup'
-// import React from 'react'
-// import flowImage from '../../assets/favicon.png'
+import { Link } from 'react-router-dom';
 import flowImage from '../../assets/favicon.png'
-import axios from 'axios';
-import { AuthContext } from '../Context/AuthContext';
-
-
-
-
-
-
-
+import useLogin from '../../Hooks/useLogin';
 
 
 
 export default function Login() {
 
-
-  const [errMsg, setErrMsg] = useState(null);
-  const [succMsg, setSuccMsg] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-    const { setToken } = useContext(AuthContext);
+  const { formik, errMsg, succMsg, loading  } = useLogin();
   
-
-
-  
-  
-  const validationSchema = yup.object().shape({
-    email: yup.string().required('Email Is Requried').email('Please Enter Valid Email'),
-    password: yup.string().required('Password Is Requried').matches(/^[A-z0-9_]{6,30}$/, 'Please Enter Valid Password With (numbers / _ / characters)')
-  });
-
-
-  async function login(values) {
-    setSuccMsg(null);
-    setErrMsg(null);
-    setLoading(true);
-
-
-    try {
-      const res = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin',values)    
-      console.log(res);
-      setSuccMsg(res.data.message)
-      setToken(res.data.token);
-      console.log(res.data.token);
-      
-      localStorage.setItem('token',res.data.token )
-      setTimeout(() => {
-        navigate('/')
-      }, 1000);
-    } catch (err) {
-      console.log(err.response.data.message);
-      setErrMsg(err.response.data.message)
-      
-    } finally {
-      setLoading(false)
-    }
-  }
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password:''
-    },
-    validationSchema,
-    onSubmit:login
-  })
   return <>
     <section className='min-h-screen flex items-center justify-center'>
       <div className="container">
 
         
         
-
+        
         <form className="relative w-[75%] mx-auto shadow p-8 bg-[#f0f3f2] rounded-md " onSubmit={formik.handleSubmit}>
                   <h1 className='capitalize mb-3 text-center text-xl'>login </h1>
-          <div className="mb-5">
+          <div className="mb-2">
             <label htmlFor="email" className=" capitalize block mb-2 text-sm font-medium text-gray-900 dark:text-white"> email</label>
-            <input value={formik.values.email} onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="email@gmail.com" required />
+            <input value={formik.values.email} onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#0aad0a] dark:focus:border-[#0aad0a]" placeholder="email@gmail.com" required />
           </div>
           {formik.errors.email && formik.touched.email ?
-            <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div className="p-4  text-sm text-red-800 font-semibold rounded-lg  dark:bg-gray-800 dark:text-red-400" role="alert">
               <span className="font-medium"></span> {formik.errors.email}
             </div>
             :null
           }
-          <div className="mb-5">
+          <div className="mb-2">
             <label htmlFor="password" className="capitalize block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-            <input  value={formik.values.password} onBlur={formik.handleBlur} onChange={formik.handleChange} type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            <input  value={formik.values.password} onBlur={formik.handleBlur} onChange={formik.handleChange} type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#0aad0a] dark:focus:border-[#0aad0a]" required />
           </div>
 
           {formik.errors.password && formik.touched.password ?
-            <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div className="p-4 mb-4 text-sm text-red-800 rounded-lg font-semibold  dark:bg-gray-800 dark:text-red-400" role="alert">
               <span className="font-medium"></span> {formik.errors.password}
             </div>
             :null
@@ -115,18 +53,18 @@ export default function Login() {
               </div> :null
                   }
             </button>
-            <div className='flex gap-4 items-center'>
+            {errMsg? <span className='p-4 mb-6 text-md font-semibold capitalize text-red-900  rounded-lg  dark:bg-gray-800 dark:text-green-400'>{ errMsg}</span>:null }
+            {succMsg ?
+              <div className=" p-4 text-md font-semibold capitalize text-green-600 rounded-lg  dark:bg-gray-800 dark:text-green-400" role="alert">
+                <span className="font-medium"></span> {succMsg}</div>
+              : null}
+
+          </div>
+            <div className='flex gap-3  items-center mt-3'>
 
               <span className='capitalize text-gray-900 text-sm'>create an account <Link to={'/register'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>signup</Link></span>
               <Link to={'/forget-password'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>Forget Password ?</Link>
             </div>
-
-            {errMsg? <span className='p-4 mb-6 text-md font-semibold capitalize text-red-900  rounded-lg  dark:bg-gray-800 dark:text-green-400'>{ errMsg}</span>:null }
-            {succMsg ?
-              <div className="p-4 mb-4 text-md font-semibold capitalize text-green-600 rounded-lg  dark:bg-gray-800 dark:text-green-400" role="alert">
-                <span className="font-medium"></span> {succMsg}</div>
-              : null}
-          </div>
 
           <div className="imgeFlow absolute bottom-8 right-0  -rotate-[20deg] ">
                   <img src={flowImage} alt="flowImage" className='w-[200px] opacity-15 ' />

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react';
 import { useQuery } from 'react-query';
 import { Box, Typography } from '@mui/material';
 import { ThreeDots } from 'react-loader-spinner';

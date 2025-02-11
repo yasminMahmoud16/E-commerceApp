@@ -22,6 +22,10 @@ import ResetUser from './Components/ForgetPassword/ResetUser';
 import Payment from './Components/Payment/Payment';
 import Cart from './Components/Cart/Cart';
 import AllOrders from './Components/AllOrders/AllOrders';
+import Products from './Components/Products/Products';
+import ProductContextProvider from './Components/Context/ProductContext';
+
+
 // import SocialMedia from './Components/SocialMedia/SocialMedia';
 // import BrandDetails from './Components/BrandDetails/BrandDetails';
 
@@ -32,6 +36,7 @@ const route = createHashRouter([
     path: '', element: <RouterLayout/>, children: [
       { index: true, element:<Guard><Home /></Guard>   },
       {path:'cart', element: <Guard><Cart/></Guard> },
+      {path:'products', element: <Guard><Products/></Guard> },
       {path:'details/:id', element: <Guard><ProductDetails/></Guard> },
       {path:'categories', element: <Guard><Categories/></Guard> },
       {path:'allorders', element: <Guard><AllOrders/></Guard> },
@@ -50,19 +55,19 @@ const route = createHashRouter([
 export default function App() {
   return <>
     {/* <RouterProvider router={routes}/> */}
-    <AuthContextProvider>
+ <AuthContextProvider>
+      <QueryClientProvider client={queryClint}>
 
-      <CartContextProvider>
-          
-          <QueryClientProvider client={queryClint}>
-        <WishContextProvider>
-            <RouterProvider router={route} />
-            <Toaster position="top-right"/>
-      </WishContextProvider>
-          </QueryClientProvider>
+          <CartContextProvider>
+            <WishContextProvider>
+        <ProductContextProvider>
+              <RouterProvider router={route} />
+              <Toaster position="top-right" />
+        </ProductContextProvider>
+            </WishContextProvider>
+          </CartContextProvider>
+  </QueryClientProvider>
+</AuthContextProvider>
 
-      </CartContextProvider>
-
-    </AuthContextProvider>
   </>
 }

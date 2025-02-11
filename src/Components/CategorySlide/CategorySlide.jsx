@@ -1,8 +1,4 @@
-import React from 'react'
-import { useQuery } from 'react-query';
-import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { InfinitySpin } from 'react-loader-spinner'
 import useCategory from '../../Hooks/useCategory';
 
 
@@ -12,30 +8,25 @@ export default function CategorySlide() {
 
     
     return <>
-        
 
 
-<Swiper loop={true} slidesPerView={6}>
-  {categoriesData?.map((cat) => (
-    <SwiperSlide key={cat._id}>
-      <div className="flex flex-col items-center gap-2 mt-7">
-        <img
-          src={cat.image}
-          alt={cat.name}
-          className="h-[100px] w-[100px] md:h-[160px] md:w-[160px] object-cover"
-          style={{ borderRadius: "50%" }}
-        />
-        <h5 className="text-center">{cat.name}</h5>
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
 
-                        
-        
-        
-        
+    <Swiper loop={true} slidesPerView={6}>
+      {categoriesData?.map((cat) => (
+        <SwiperSlide key={cat._id}>
+          <div className="flex flex-col items-center gap-2 mt-7">
+            <img
+              src={cat.image}
+              alt={cat.name}
+              className="h-[100px] w-[100px] md:h-[160px] md:w-[160px] object-cover"
+              style={{ borderRadius: "50%" }}
+            />
+            <h5 className="text-center">{cat.name}</h5>
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
 
-        
+
     </>
 }

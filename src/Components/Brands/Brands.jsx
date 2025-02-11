@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 import { useQuery } from 'react-query';
 import BrandDetails from '../BrandDetails/BrandDetails';

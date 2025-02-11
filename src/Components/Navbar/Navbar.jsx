@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import {  Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../../assets/freshcart-logo.svg'
 import { AuthContext } from '../Context/AuthContext';
@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const navigate = useNavigate();
   const { numOfCartItems } = useContext(CartContext);
-      const {  userwishItems,wishListNumber } = useContext(WishContext);
+      const {  userwishItems } = useContext(WishContext);
   
   const logout = () => {
       localStorage.removeItem('token');
@@ -54,8 +54,18 @@ export default function Navbar() {
                                       Home
                 </NavLink>
           </li>
+                      
 
 
+          <li>
+                  
+                <NavLink to="products" className={({ isActive }) => 
+                          isActive 
+                            ? 'block py-2 px-3 text-white bg-[#16C216] rounded md:bg-transparent md:text-[#16C216] md:p-0 dark:text-white md:dark:text-[#16C216]' 
+                                        : 'block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'} >
+                                      Products
+                </NavLink>
+          </li>
           <li>
                   
                 <NavLink to="categories" className={({ isActive }) => 

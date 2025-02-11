@@ -2,7 +2,7 @@ import axios from 'axios';
 import  { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query';
-import { InfinitySpin } from 'react-loader-spinner'
+import {  Oval } from 'react-loader-spinner'
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { CartContext } from '../Context/CartContext';
 
@@ -35,13 +35,16 @@ export default function ProductDetails() {
   return <>
     <div className="container">
       {isLoading ? <div className='flex flex-col items-center justify-center mt-8 h-screen '>
-        <h2 className='capitalize'>loading...</h2>
-                          <InfinitySpin
-                            visible={true}
-                            width="200"
-                            color="#4fa94d"
-          ariaLabel="infinity-spin-loading"
-                            />
+        <h2 className='capitalize mb-5'>loading...</h2>
+                          <Oval
+                                          visible={true}
+                                          height="80"
+                                          width="80"
+                                          color="#4fa94d"
+                                          ariaLabel="oval-loading"
+                                          wrapperStyle={{}}
+                                          wrapperClass=""
+                                          />
                         </div>:    
               <div className='my-16 '>
                   <div className='grid grid-cols-6 items-center ' >

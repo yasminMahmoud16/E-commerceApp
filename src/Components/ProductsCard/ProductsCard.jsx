@@ -2,12 +2,14 @@ import  { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { CartContext } from '../Context/CartContext';
 import { WishContext } from '../Context/WishContext';
+import { ProductContext } from '../Context/ProductContext';
 
 
 
-export default function ProductsCard(props) {
-    // console.log(props);
-    const { title, ratingsAverage, price, imageCover, _id } = props.products;
+export default function ProductsCard({products}) {
+    // const { allProductsData}=useContext(ProductContext)
+    const { title, ratingsAverage, price, imageCover, _id } = products;
+    
     let rate = Math.floor(ratingsAverage);
 
     // const {isWishList,setIsWishList}= useState(false);
@@ -43,7 +45,7 @@ export default function ProductsCard(props) {
                 <div className='flex items-center justify-between w-full'>
                     <span className="text-lg font-semibold text-[#16C216] dark:text-white p-3">{price} <span className='text-gray-900'>EGP</span> </span>
                     
-                       <i onClick={() => isWishList ? removeProdWishList(_id) : addToWishList(_id)}
+                    <i onClick={() => isWishList ? removeProdWishList(_id) : addToWishList(_id)}
     className={`fa-solid fa-heart text-xl p-3 transition-all cursor-pointer ${
         isWishList ? 'text-red-500' : 'text-green-900'
                     } hover:text-red-500`}></i>

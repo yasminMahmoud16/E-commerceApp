@@ -1,5 +1,5 @@
-import axios, { all } from 'axios';
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import  { useEffect, useState } from 'react'
 import { createContext } from 'react'
 import toast from './../../../node_modules/react-hot-toast/src/index';
 
@@ -11,34 +11,46 @@ export default function CartContextProvider({ children }) {
     const [userCartItems, setUserCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState();
     const [cartId, setCartId] = useState();
-    // add products to cart 
+        const [isLoading, setIsLoading] = useState(false);
+
     const addToCart = async (productId) => {
+    if (!userCartItems) {
+        toast.error("Cart data not loaded yet");
+        return;
+    }
 
-        
-        try {
+    const productExists = userCartItems.some(item => item.product?._id === productId);
 
-            const res = await axios.post('https://ecommerce.routemisr.com/api/v1/cart', {
-                productId
-            }, {
-                headers: {
-                    token: localStorage.getItem('token')
-                }
-            });
-            
-            console.log(res);
-            if (res.data.status === 'success') {
-                toast.success('Product Added To Cart');
-                setNumOfCartItems(res.data.numOfCartItems);
+    if (productExists) {
+        toast.error("Product is already in the cart");
+        return;
+    }
+
+    try {
+        const res = await axios.post(
+            "https://ecommerce.routemisr.com/api/v1/cart",
+            { productId },
+            {
+                headers: { token: localStorage.getItem("token") },
             }
-        } catch (err) {
-            console.log(err, 'cart context error');
-            toast.error('Something Went Wrong');
+        );
 
+        if (res.data.status === "success") {
+            toast.success("Product Added To Cart");
+            setNumOfCartItems(res.data.numOfCartItems);
+            getCartItems(); // Refresh cart after adding
         }
-    };
+    } catch (err) {
+        console.log(err, "cart context error");
+        toast.error("Something Went Wrong");
+    }
+};
+
 
     // get user cart items
     const getCartItems = async () => {
+                setIsLoading(true)
+
         try {
             
             const res = await axios.get('https://ecommerce.routemisr.com/api/v1/cart', {
@@ -51,9 +63,13 @@ export default function CartContextProvider({ children }) {
             setUserCartItems(res.data.data.products);
             setTotalPrice(res.data.data.totalCartPrice);
             setNumOfCartItems(res.data.numOfCartItems);
+            console.log(res.data.cartId);
             setCartId(res.data.cartId)
+            
         } catch (err) {
             console.log(err + 'getCartItems context error');
+        }finally {
+            setIsLoading(false)
         }
     };
 
@@ -99,11 +115,35 @@ export default function CartContextProvider({ children }) {
         }   
 
     };
+
+    // clear cart
+
+    const clearCart = async () => {
+        setIsLoading(true)
+    try {
+        const res = await axios.delete('https://ecommerce.routemisr.com/api/v1/cart', {
+            headers: {
+                token: localStorage.getItem('token')
+            }
+        });
+
+        getCartItems()
+        return res
+    } catch (err) {
+        console.log(err + ' clearCart context error');
+        toast.error("Failed to clear cart");
+    } finally {
+        setIsLoading(false)
+    }
+};
+
+
+
         useEffect(() => {
-        getCartItems(); // Fetch cart when app starts
+            getCartItems(); 
     }, []);
     return <>
-        <CartContext.Provider value={{ addToCart, numOfCartItems,cartId,getCartItems,userCartItems,updateCartItem,totalPrice,deletCartItem }}>
+        <CartContext.Provider value={{setNumOfCartItems, addToCart, numOfCartItems,cartId,getCartItems,userCartItems,updateCartItem,totalPrice,deletCartItem ,isLoading,clearCart}}>
             {children}
         </CartContext.Provider>
     </>

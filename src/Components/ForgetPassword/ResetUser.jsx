@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { AuthContext } from '../Context/AuthContext';
 
 export default function ResetUser() {
     const [loading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState(null);
     const [succMsg, setSuccMsg] = useState(null);
-        const { setToken } = useContext(AuthContext);
     
     const navigate = useNavigate();
 
@@ -34,7 +32,6 @@ export default function ResetUser() {
         const res = await axios.put('https://ecommerce.routemisr.com/api/v1/auth/resetPassword',  values )
         console.log(res);
         setSuccMsg(res.data.message);
-        // localStorage.setItem('token',res.data.token )
         setTimeout(() => {
         navigate('/login')
         }, 1000);
@@ -66,7 +63,7 @@ export default function ResetUser() {
           <h1 className='capitalize mb-3 text-center text-xl'>reset your account password  </h1>
           <div className="mb-5">
             <label htmlFor="email" className=" capitalize block mb-2 text-sm font-medium text-gray-900 dark:text-white"> email</label>
-            <input value={formik.values.email} onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="email@gmail.com" required />
+            <input value={formik.values.email} onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#0aad0a] dark:focus:border-[#0aad0a]" placeholder="email@gmail.com" required />
           </div>
           {formik.errors.email && formik.touched.email ?
             <div className="mb-4 text-sm text-red-800 rounded-lg  dark:bg-gray-800 " role="alert">
@@ -76,7 +73,7 @@ export default function ResetUser() {
           }
           <div className="mb-5">
             <label htmlFor="password" className="capitalize block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
-            <input  value={formik.values.newPassword} onBlur={formik.handleBlur} onChange={formik.handleChange} type="password" id="newPassword" name='newPassword' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            <input  value={formik.values.newPassword} onBlur={formik.handleBlur} onChange={formik.handleChange} type="password" id="newPassword" name='newPassword' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#0aad0a] dark:focus:border-[#0aad0a]" required autoComplete='current-password' />
           </div>
 
           {formik.errors.newPassword && formik.touched.newPassword ?
@@ -94,7 +91,7 @@ export default function ResetUser() {
                 <span className="font-medium"></span> {succMsg}</div>
               : null}
 
-            <button type="submit" className="flex items-center justify-center gap-3 text-white bg-[#0aad0a] transition-all hover:bg-[#16c216] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-[#0aad0a] dark:hover:bg-[#16c216] ">
+            <button type="submit" className=" capitalize flex items-center justify-center gap-3 text-white bg-[#0aad0a] transition-all hover:bg-[#16c216] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-[#0aad0a] dark:hover:bg-[#16c216] ">
               reset
 
               {loading ? <div role="status">

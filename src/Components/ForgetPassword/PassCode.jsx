@@ -54,7 +54,7 @@ export default function ResetCode() {
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
-    formik.setFieldValue("resetCode", newCode.join("")); // Combine into a string
+    formik.setFieldValue("resetCode", newCode.join("")); 
     
     if (value && index < code.length - 1) {
       inputRef.current[index + 1]?.focus();
@@ -93,7 +93,7 @@ export default function ResetCode() {
                   <div className="p-4 mb-4 text-md font-semibold capitalize text-green-600 rounded-lg  dark:bg-gray-800 dark:text-green-400" role="alert">
                   <span className="font-medium"></span> {succMsg}</div>
                 : null}
-          <button type="submit" className=" mt-4 flex items-center justify-center  text-white bg-[#0aad0a] transition-all hover:bg-[#16c216] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-[#0aad0a] dark:hover:bg-[#16c216] ">
+          <button type="submit" className=" mt-4 flex items-center gap-2 justify-center  text-white bg-[#0aad0a] transition-all hover:bg-[#16c216] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-[#0aad0a] dark:hover:bg-[#16c216] ">
               Verify
 
           

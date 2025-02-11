@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createContext, useEffect, useState } from 'react'
+import  { createContext, useEffect, useState } from 'react'
 import toast from './../../../node_modules/react-hot-toast/src/index';
 
  export const WishContext = createContext();
@@ -8,6 +8,7 @@ export default function WishContextProvider({ children }) {
     const [wishItems, setWishIems] = useState([]);
     const [userwishItems, setUserWishIems] = useState([]);
     const [wishListNumber, setWishListNumber] = useState(0);
+    const [isLoaading, setIsLoading] = useState(false);
 
     // add products to wishlist
     const addToWishList = async (productId) => {
@@ -25,7 +26,11 @@ export default function WishContextProvider({ children }) {
             if (res.data.status === 'success') {
                 toast.success('Product Added To Wishlist');
                 setWishIems(prev => [...prev, productId])
+
+                localStorage.setItem('wishItems',JSON.stringify(updateWishLiist))
                 getProWishList();
+
+
                 console.log(res);
             }
         } catch (err) {
@@ -36,18 +41,25 @@ export default function WishContextProvider({ children }) {
     
         // get products from wishlist
 
-        const getProWishList = async () => {
+    const getProWishList = async () => {
+            setIsLoading(true)
             try {
                 const res = await axios.get('https://ecommerce.routemisr.com/api/v1/wishlist', {
                     headers: {
                         token: localStorage.getItem('token')}
                     
                 })
+                const wishId = res.data.data.map(item => item._id); // Extract product IDs
+
                     console.log(res);
                 setUserWishIems(res.data.data);
-                setWishListNumber(res.data.count );
+                setWishIems(wishId)
+                setWishListNumber(res.data.count);
+                localStorage.setItem('wishItems',JSON.stringify(wishId))
             } catch (err) {
                 console.log(err, 'getProWishList context error');
+            } finally {
+                setIsLoading(false);
             }
     };
 
@@ -65,7 +77,6 @@ export default function WishContextProvider({ children }) {
     
             if (res.data.status == 'success') {
                 setUserWishIems(res.data.count);
-                                // setWishIems((prev) => prev.filter((id) => id !==/ productId)); // Update state
 
             }
         } catch (err) {
@@ -88,6 +99,7 @@ export default function WishContextProvider({ children }) {
             if (res.data.status === 'success') {
                 toast.success('Product Removed From Wishlist');
                 setWishIems(prev => prev.filter(id => id !== productId));
+                localStorage.setItem('wishItems', JSON.stringify(updateWishLiist));
 
             getProWishList(); 
             updateWishLiist(); 
@@ -101,12 +113,16 @@ export default function WishContextProvider({ children }) {
 
     
 
-            useEffect(() => {
-            getProWishList(); // Fetch cart when app starts
+    useEffect(() => {
+                const storedWishItems = JSON.parse(localStorage.getItem('wishItems'));
+        if (storedWishItems) {
+            setWishIems(storedWishItems);
+        }
+            getProWishList(); 
         }, []);
 
     return <>
-        <WishContext.Provider value={{addToWishList,wishListNumber,updateWishLiist,wishItems,getProWishList,userwishItems,removeProdWishList}}>
+        <WishContext.Provider value={{addToWishList,wishListNumber,updateWishLiist,wishItems,getProWishList,userwishItems,removeProdWishList,isLoaading}}>
             {children}
         </WishContext.Provider>
     </>
