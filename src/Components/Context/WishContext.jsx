@@ -27,7 +27,7 @@ export default function WishContextProvider({ children }) {
                 toast.success('Product Added To Wishlist');
                 setWishIems(prev => [...prev, productId])
 
-                localStorage.setItem('wishItems',JSON.stringify(updateWishLiist))
+                localStorage.setItem('wishItems',JSON.stringify(getProWishList))
                 getProWishList();
 
 
@@ -55,7 +55,8 @@ export default function WishContextProvider({ children }) {
                 setUserWishIems(res.data.data);
                 setWishIems(wishId)
                 setWishListNumber(res.data.count);
-                localStorage.setItem('wishItems',JSON.stringify(wishId))
+                localStorage.setItem('wishItems', JSON.stringify(wishId))
+                
             } catch (err) {
                 console.log(err, 'getProWishList context error');
             } finally {
@@ -63,28 +64,7 @@ export default function WishContextProvider({ children }) {
             }
     };
 
-    // update
 
-    const updateWishLiist = () => {
-        try {
-            
-            const res = axios.get('https://ecommerce.routemisr.com/api/v1/wishlist', {
-                headers: {
-                    token:localStorage.getItem('token')
-                }
-            })
-            console.log(res);
-    
-            if (res.data.status == 'success') {
-                setUserWishIems(res.data.count);
-
-            }
-        } catch (err) {
-            console.log(err +'err from update wish list ');
-            
-        }
-        
-    }
     
     //! remove product from wishlist
     const removeProdWishList = async (productId) => {
@@ -99,10 +79,9 @@ export default function WishContextProvider({ children }) {
             if (res.data.status === 'success') {
                 toast.success('Product Removed From Wishlist');
                 setWishIems(prev => prev.filter(id => id !== productId));
-                localStorage.setItem('wishItems', JSON.stringify(updateWishLiist));
+                localStorage.setItem('wishItems', JSON.stringify(getProWishList));
 
             getProWishList(); 
-            updateWishLiist(); 
             }
 
         } catch (err) {
@@ -122,7 +101,7 @@ export default function WishContextProvider({ children }) {
         }, []);
 
     return <>
-        <WishContext.Provider value={{addToWishList,wishListNumber,updateWishLiist,wishItems,getProWishList,userwishItems,removeProdWishList,isLoaading}}>
+        <WishContext.Provider value={{addToWishList,wishListNumber,wishItems,getProWishList,userwishItems,removeProdWishList,isLoaading}}>
             {children}
         </WishContext.Provider>
     </>
