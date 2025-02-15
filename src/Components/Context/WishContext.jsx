@@ -1,108 +1,105 @@
 import axios from 'axios';
-import  { createContext, useEffect, useState } from 'react'
-import toast from './../../../node_modules/react-hot-toast/src/index';
+import { createContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
- export const WishContext = createContext();
+export const WishContext = createContext();
+
 export default function WishContextProvider({ children }) {
-
-    const [wishItems, setWishIems] = useState([]);
-    const [userwishItems, setUserWishIems] = useState([]);
+    const [wishItems, setWishItems] = useState([]);
+    const [userwishItems, setUserWishItems] = useState([]);
     const [wishListNumber, setWishListNumber] = useState(0);
-    const [isLoaading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // add products to wishlist
+    // Add product to wishlist
     const addToWishList = async (productId) => {
         try {
-            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error("No token found in localStorage");
+                return;
+            }
+
             const res = await axios.post('https://ecommerce.routemisr.com/api/v1/wishlist', {
                 productId
             }, {
-                headers: {
-                    token: localStorage.getItem('token')
-                }
+                headers: { token }
             });
 
-            
             if (res.data.status === 'success') {
                 toast.success('Product Added To Wishlist');
-                setWishIems(prev => [...prev, productId])
-
-                localStorage.setItem('wishItems',JSON.stringify(getProWishList))
+                const updatedWishItems = [...wishItems, productId];
+                setWishItems(updatedWishItems);
+                localStorage.setItem('wishItems', JSON.stringify(updatedWishItems));
                 getProWishList();
-
-
-                console.log(res);
             }
         } catch (err) {
-            console.log(err, 'wish context error');
-            
+            console.error("Error adding to wishlist:", err);
         }
-    }
-    
-        // get products from wishlist
-
-    const getProWishList = async () => {
-            setIsLoading(true)
-            try {
-                const res = await axios.get('https://ecommerce.routemisr.com/api/v1/wishlist', {
-                    headers: {
-                        token: localStorage.getItem('token')}
-                    
-                })
-                const wishId = res.data.data.map(item => item._id); // Extract product IDs
-
-                    console.log(res);
-                setUserWishIems(res.data.data);
-                setWishIems(wishId)
-                setWishListNumber(res.data.count);
-                localStorage.setItem('wishItems', JSON.stringify(wishId))
-                
-            } catch (err) {
-                console.log(err, 'getProWishList context error');
-            } finally {
-                setIsLoading(false);
-            }
     };
 
-
-    
-    //! remove product from wishlist
-    const removeProdWishList = async (productId) => {
+    // Get wishlist items
+    const getProWishList = async () => {
+        setIsLoading(true);
         try {
-            
-            const res = await axios.delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, {
-                headers: {
-                    token: localStorage.getItem('token')
-                }
-            });
-            console.log(res);
-            if (res.data.status === 'success') {
-                toast.success('Product Removed From Wishlist');
-                setWishIems(prev => prev.filter(id => id !== productId));
-                localStorage.setItem('wishItems', JSON.stringify(getProWishList));
-
-            getProWishList(); 
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error("No token found in localStorage");
+                setIsLoading(false);
+                return;
             }
 
-        } catch (err) {
-            console.log(err, 'removeProdWishList context error');
-            
-        }
-    }
+            const res = await axios.get('https://ecommerce.routemisr.com/api/v1/wishlist', {
+                headers: { token }
+            });
 
-    
+            if (res.data.data) {
+                const wishIds = res.data.data.map(item => item._id);
+                setUserWishItems(res.data.data);
+                setWishItems(wishIds);
+                setWishListNumber(res.data.count || wishIds.length);
+                localStorage.setItem('wishItems', JSON.stringify(wishIds));
+            }
+        } catch (err) {
+            console.error("Error fetching wishlist:", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Remove product from wishlist
+    const removeProdWishList = async (productId) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error("No token found in localStorage");
+                return;
+            }
+
+            const res = await axios.delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, {
+                headers: { token }
+            });
+
+            if (res.data.status === 'success') {
+                toast.success('Product Removed From Wishlist');
+                const updatedWishItems = wishItems.filter(id => id !== productId);
+                setWishItems(updatedWishItems);
+                localStorage.setItem('wishItems', JSON.stringify(updatedWishItems));
+                getProWishList();
+            }
+        } catch (err) {
+            console.error("Error removing from wishlist:", err);
+        }
+    };
 
     useEffect(() => {
-                const storedWishItems = JSON.parse(localStorage.getItem('wishItems'));
-        if (storedWishItems) {
-            setWishIems(storedWishItems);
-        }
-            getProWishList(); 
-        }, []);
+        const storedWishItems = JSON.parse(localStorage.getItem('wishItems')) || [];
+        setWishItems(storedWishItems);
+        getProWishList();
+    }, []);
 
-    return <>
-        <WishContext.Provider value={{addToWishList,wishListNumber,wishItems,getProWishList,userwishItems,removeProdWishList,isLoaading}}>
+    return (
+        <WishContext.Provider value={{ addToWishList, wishListNumber, wishItems, getProWishList, userwishItems, removeProdWishList, isLoading }}>
             {children}
         </WishContext.Provider>
-    </>
+    );
 }
