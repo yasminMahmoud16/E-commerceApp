@@ -2,7 +2,6 @@ import  { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { CartContext } from '../Context/CartContext';
 import { WishContext } from '../Context/WishContext';
-import { ProductContext } from '../Context/ProductContext';
 
 
 
@@ -46,9 +45,9 @@ export default function ProductsCard({products}) {
                     <span className="text-lg font-semibold text-[#16C216] dark:text-white p-3">{price} <span className='text-gray-900'>EGP</span> </span>
                     
                     <i onClick={() => isWishList ? removeProdWishList(_id) : addToWishList(_id)}
-    className={`fa-solid fa-heart text-xl p-3 transition-all cursor-pointer ${
-        isWishList ? 'text-red-500' : 'text-green-900'
-                    } hover:text-red-500`}></i>
+                    className={`fa-solid fa-heart text-xl p-3 transition-all cursor-pointer ${
+                        isWishList ? 'text-red-500' : 'text-green-900'
+                                    } hover:text-red-500`}></i>
                 </div>
                 <button onClick={()=>{addToCart(_id)}} className="w-full ms-auto block capitalize text-white transition-all bg-[#16C216] hover:bg-[#0b850b] focus:ring-4 focus:outline-none focus:ring-[#16C216] font-medium  text-sm px-5 py-2.5 text-center dark:bg-[#16C216] dark:hover:bg-[#16C216] dark:focus:ring-[#16C216]">add to cart <i className="fa-solid fa-cart-shopping"></i></button>
             </div>
