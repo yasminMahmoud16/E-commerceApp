@@ -41,14 +41,14 @@ export default function WishList() {
                     <td  colSpan="100%" className="text-center align-middle">
                                     <div className="flex justify-center items-center px-5 w-full min-h-screen">
                   <ThreeDots
-  visible={true}
-  height="80"
-  width="80"
-  color="#4fa94d"
-  radius="9"
-  ariaLabel="three-dots-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
                 />
                 </div>
                     </td>

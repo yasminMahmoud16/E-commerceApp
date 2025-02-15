@@ -104,9 +104,9 @@ export default function Cart() {
                                         </tr>
                                         ))}
                                                 <tr className="  ">
-                                                    <td className=' '>
+                                                    <td colSpan="100%">
 
-                                                <button onClick={()=>clearCart()} className="mt-8 ml-2 capitalize  flex items-center justify-center gap-2 text-white bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-600 font-medium rounded-sm text-sm w-full  px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                                <button onClick={()=>clearCart()} className=" capitalize  flex items-center justify-center gap-2 text-white bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-600 font-medium rounded-sm text-sm w-full  px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                                     clear cart 
                                                     {isLoading ? <div role="status">
                                                                 <svg aria-hidden="true" className="inline w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-green-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
