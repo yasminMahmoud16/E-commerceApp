@@ -49,7 +49,7 @@ export default function WishContextProvider({ children }) {
                         token: localStorage.getItem('token')}
                     
                 })
-                const wishId = res.data.data.map(item => item._id); // Extract product IDs
+                const wishId = res.data.data.map(item => item._id); 
 
                     console.log(res);
                 setUserWishIems(res.data.data);
@@ -93,12 +93,12 @@ export default function WishContextProvider({ children }) {
     
 
     useEffect(() => {
-        const storedWishItems = JSON.parse(localStorage.getItem('wishItems'));
-        console.log(storedWishItems);
+        // const storedWishItems = JSON.parse(localStorage.getItem('wishItems'));
+        // console.log(storedWishItems);
         
-        if (storedWishItems) {
-            setWishIems(storedWishItems);
-        }
+        // if (storedWishItems) {
+        //     setWishIems(storedWishItems);
+        // }
             getProWishList(); 
         }, []);
 
