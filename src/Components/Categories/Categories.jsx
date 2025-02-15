@@ -48,7 +48,7 @@ export default function Categories() {
                   
                   }} className="text-white font-medium rounded-lg text-sm px-5 py-2.5  flex flex-col items-center justify-center transition-transform duration-300 transform hover:scale-105 cursor-pointer hover:border-4 hover:border-green-400" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
                     <img src={cat.image} alt={cat.name} className="h-auto max-w-full rounded-lg" />
-                    <h2 className="text-center text-xl font-semibold mt-3">{cat.name}</h2>
+                    <h2 className="text-center text-xl font-semibold text-[#145114] ">{cat.name}</h2>
                   </div>
               ))};
             </div>
