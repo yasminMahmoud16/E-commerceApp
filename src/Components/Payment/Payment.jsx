@@ -1,17 +1,15 @@
-import { useEffect } from "react";
 import useCash from "../../Hooks/useCash";
 import payment from "../../assets/payment.jpg";
-import toast from "react-hot-toast";
 
 export default function Payment() {
     const { formik, setPaymentWay, errMsg, succMsg } = useCash();
 
     return (
         <>
-            <section className="min-h-screen flex items-center">
+            <section className="min-h-screen flex items-center ">
                 <div className="container">
                     <div className="grid md:grid-cols-6 items-center justify-center">
-                        <div className="col-span-3">
+                        <div className="col-span-3 m-4">
                             <form className="max-w-md mx-auto md:relative" onSubmit={formik.handleSubmit}>
                                 <h1 className='capitalize mb-7 text-3xl text-[#16c216] font-semibold'>Payment Details</h1>
                                 <div className="relative z-0 w-full mb-5 group">

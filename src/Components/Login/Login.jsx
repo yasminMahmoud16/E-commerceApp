@@ -63,7 +63,7 @@ export default function Login() {
             <div className='flex gap-3  items-center mt-3'>
 
               <span className='capitalize text-gray-900 text-sm'>create an account <Link to={'/register'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>signup</Link></span>
-              <Link to={'/forget-password'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020]'>Forget Password ?</Link>
+              <Link to={'/forget-password'} className='capitalize underline text-[#16c216] transition-all hover:text-[#207020] text-sm'>Forget Password ?</Link>
             </div>
 
           <div className="imgeFlow absolute bottom-8 right-0  -rotate-[20deg] ">

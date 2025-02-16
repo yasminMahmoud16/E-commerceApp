@@ -27,6 +27,7 @@ export default function Register() {
 
   // for cleenCode
   async function regester(values) {
+    
     // remove the msg if user enters new mail
     setMsg(null)
     setSuccesMsg(null)
@@ -43,7 +44,7 @@ export default function Register() {
       localStorage.setItem('token',res.data.token )
       setTimeout(() => {
         navigate('/login')
-      },1000)
+      }, 1000);
     } catch (err) {
       console.log(err.response.data.message);
       setMsg(err.response.data.message)

@@ -47,7 +47,7 @@ export default function ProductDetails() {
                                           />
                         </div>:    
               <div className='my-16 '>
-                  <div className='grid grid-cols-6 items-center ' >
+                  <div className='grid grid-cols-1 md:grid-cols-6 items-center ' >
             <div className="col-span-3" key={details._id}>
 
 
@@ -71,7 +71,7 @@ export default function ProductDetails() {
               </Splide>
                     </div>
 
-                    <div className='col-span-3 flex flex-col gap-2'>
+                    <div className='col-span-3 flex flex-col gap-2 p-9'>
               <h1 className='text-3xl text-[#125012]' >{details?.title}</h1>
               <div className='flex items-center gap-1'>
                     {Array.from({ length: rate },(_, index)=>{

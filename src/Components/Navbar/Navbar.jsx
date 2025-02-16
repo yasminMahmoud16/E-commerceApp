@@ -62,9 +62,9 @@ export default function Navbar() {
                   <NavLink to="brands" className={({ isActive }) => isActive ? 'block py-2 px-3 text-white bg-[#16C216] rounded md:bg-transparent md:text-[#16C216] md:p-0 dark:text-white md:dark:text-[#16C216]' : 'block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'}>Brands</NavLink>
                 </li>
                 <li className="relative">
-                  <NavLink to="cart" className={({ isActive }) => isActive ? 'block py-2 px-3 text-white bg-[#16C216] rounded md:bg-transparent md:text-[#16C216] md:p-0 dark:text-white md:dark:text-[#16C216]' : 'block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'}>
+                  <NavLink to="cart" className=' block py-2 px-3 text-gray-700 rounded md:bg-transparent md:text-gray-700 md:p-0 dark:text-gray-400 md:dark:text-gray-500'>
                     <Badge color="error" badgeContent={numOfCartItems}>
-                      <i className="fa-solid fa-cart-shopping text-[#16C216] text-lg"></i>
+                      <i className="fa-solid fa-cart-shopping text-[#16C216] hover:text-[#2e7b2e] text-lg"></i>
                     </Badge>
                   </NavLink>
                 </li>
@@ -80,7 +80,7 @@ export default function Navbar() {
 
             <div className="state flex flex-col md:flex-row md:space-x-4">
               {token ? (
-                <button className="border-2 border-[#16C216] py-1 px-5 rounded-md text-[#16c216] hover:bg-[#288828] hover:text-white hover:border-[#288828] transition duration-300 ease-in-out" onClick={logout}>
+                <button className=" mr-2 flex  items-center justify-center gap-3 border-2 border-[#16C216] py-1 px-5 rounded-md text-[#16c216] hover:bg-[#288828] hover:text-white hover:border-[#288828] transition duration-300 ease-in-out" onClick={logout}>
                   Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
                 </button>
               ) : (
